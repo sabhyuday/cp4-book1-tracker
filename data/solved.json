@@ -1,0 +1,21 @@
+{
+  "generatedAt": null,
+  "accounts": {
+    "kattis": {
+      "configured": false,
+      "complete": false,
+      "source": null,
+      "error": null,
+      "totalSolved": null,
+      "solved": []
+    },
+    "leetcode": {
+      "configured": false,
+      "complete": false,
+      "source": null,
+      "error": null,
+      "totalSolved": null,
+      "solved": []
+    }
+  }
+}

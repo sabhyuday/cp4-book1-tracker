@@ -1,0 +1,562 @@
+{
+  "metadata": {
+    "generatedAt": "2026-08-01T22:30:00.000Z",
+    "source": "Demo seed based on CPBook chapter classifications",
+    "scope": "Book 1 chapters 1-4; Kattis and LeetCode only",
+    "note": "Validated preview data. LeetCode entries use real title slugs; the scraper now aborts instead of generating lc#### URLs.",
+    "demo": true,
+    "counts": {
+      "total": 35,
+      "kattis": 23,
+      "leetcode": 12,
+      "starred": 13
+    }
+  },
+  "chapters": [
+    {
+      "number": 1,
+      "title": "Introduction",
+      "sections": [
+        {
+          "code": "1.4a",
+          "title": "One-Liner I/O",
+          "problems": [
+            {
+              "id": "kattis:addtwonumbers",
+              "platform": "kattis",
+              "sourceId": "addtwonumbers",
+              "slug": "addtwonumbers",
+              "title": "Add Two Numbers",
+              "url": "https://open.kattis.com/problems/addtwonumbers",
+              "chapter": 1,
+              "sectionCode": "1.4a",
+              "sectionTitle": "One-Liner I/O",
+              "starred": true,
+              "points": 1.2
+            },
+            {
+              "id": "kattis:carrots",
+              "platform": "kattis",
+              "sourceId": "carrots",
+              "slug": "carrots",
+              "title": "Solving for Carrots",
+              "url": "https://open.kattis.com/problems/carrots",
+              "chapter": 1,
+              "sectionCode": "1.4a",
+              "sectionTitle": "One-Liner I/O",
+              "starred": false,
+              "points": 1.3
+            },
+            {
+              "id": "kattis:echoechoecho",
+              "platform": "kattis",
+              "sourceId": "echoechoecho",
+              "slug": "echoechoecho",
+              "title": "Echo Echo Echo",
+              "url": "https://open.kattis.com/problems/echoechoecho",
+              "chapter": 1,
+              "sectionCode": "1.4a",
+              "sectionTitle": "One-Liner I/O",
+              "starred": false,
+              "points": 1.2
+            },
+            {
+              "id": "kattis:digitswap",
+              "platform": "kattis",
+              "sourceId": "digitswap",
+              "slug": "digitswap",
+              "title": "Digit Swap",
+              "url": "https://open.kattis.com/problems/digitswap",
+              "chapter": 1,
+              "sectionCode": "1.4a",
+              "sectionTitle": "One-Liner I/O",
+              "starred": false,
+              "points": 1.3
+            },
+            {
+              "id": "leetcode:add-two-integers",
+              "platform": "leetcode",
+              "sourceId": "lc2235",
+              "slug": "add-two-integers",
+              "title": "Add Two Integers",
+              "url": "https://leetcode.com/problems/add-two-integers/",
+              "chapter": 1,
+              "sectionCode": "1.4a",
+              "sectionTitle": "One-Liner I/O",
+              "starred": false,
+              "difficulty": "Easy"
+            },
+            {
+              "id": "leetcode:convert-the-temperature",
+              "platform": "leetcode",
+              "sourceId": "lc2469",
+              "slug": "convert-the-temperature",
+              "title": "Convert the Temperature",
+              "url": "https://leetcode.com/problems/convert-the-temperature/",
+              "chapter": 1,
+              "sectionCode": "1.4a",
+              "sectionTitle": "One-Liner I/O",
+              "starred": false,
+              "difficulty": "Easy"
+            },
+            {
+              "id": "leetcode:calculate-delayed-arrival-time",
+              "platform": "leetcode",
+              "sourceId": "lc2651",
+              "slug": "calculate-delayed-arrival-time",
+              "title": "Calculate Delayed Arrival Time",
+              "url": "https://leetcode.com/problems/calculate-delayed-arrival-time/",
+              "chapter": 1,
+              "sectionCode": "1.4a",
+              "sectionTitle": "One-Liner I/O",
+              "starred": false,
+              "difficulty": "Easy"
+            },
+            {
+              "id": "leetcode:find-the-maximum-achievable-number",
+              "platform": "leetcode",
+              "sourceId": "lc2769",
+              "slug": "find-the-maximum-achievable-number",
+              "title": "Find the Maximum Achievable Number",
+              "url": "https://leetcode.com/problems/find-the-maximum-achievable-number/",
+              "chapter": 1,
+              "sectionCode": "1.4a",
+              "sectionTitle": "One-Liner I/O",
+              "starred": false,
+              "difficulty": "Easy"
+            }
+          ]
+        },
+        {
+          "code": "1.4m",
+          "title": "Easy",
+          "problems": [
+            {
+              "id": "kattis:lineup",
+              "platform": "kattis",
+              "sourceId": "lineup",
+              "slug": "lineup",
+              "title": "Line Them Up",
+              "url": "https://open.kattis.com/problems/lineup",
+              "chapter": 1,
+              "sectionCode": "1.4m",
+              "sectionTitle": "Easy",
+              "starred": true,
+              "points": 1.8
+            },
+            {
+              "id": "kattis:armystrengtheasy",
+              "platform": "kattis",
+              "sourceId": "armystrengtheasy",
+              "slug": "armystrengtheasy",
+              "title": "Army Strength (Easy)",
+              "url": "https://open.kattis.com/problems/armystrengtheasy",
+              "chapter": 1,
+              "sectionCode": "1.4m",
+              "sectionTitle": "Easy",
+              "starred": false,
+              "points": 2.1
+            },
+            {
+              "id": "kattis:armystrengthhard",
+              "platform": "kattis",
+              "sourceId": "armystrengthhard",
+              "slug": "armystrengthhard",
+              "title": "Army Strength (Hard)",
+              "url": "https://open.kattis.com/problems/armystrengthhard",
+              "chapter": 1,
+              "sectionCode": "1.4m",
+              "sectionTitle": "Easy",
+              "starred": false,
+              "points": 2.2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Data Structures and Libraries",
+      "sections": [
+        {
+          "code": "2.2a",
+          "title": "1D Array, Medium",
+          "problems": [
+            {
+              "id": "kattis:karte",
+              "platform": "kattis",
+              "sourceId": "karte",
+              "slug": "karte",
+              "title": "Karte",
+              "url": "https://open.kattis.com/problems/karte",
+              "chapter": 2,
+              "sectionCode": "2.2a",
+              "sectionTitle": "1D Array, Medium",
+              "starred": true,
+              "points": 1.8
+            },
+            {
+              "id": "kattis:mastermind",
+              "platform": "kattis",
+              "sourceId": "mastermind",
+              "slug": "mastermind",
+              "title": "Mastermind",
+              "url": "https://open.kattis.com/problems/mastermind",
+              "chapter": 2,
+              "sectionCode": "2.2a",
+              "sectionTitle": "1D Array, Medium",
+              "starred": false,
+              "points": 2.4
+            },
+            {
+              "id": "leetcode:valid-mountain-array",
+              "platform": "leetcode",
+              "sourceId": "lc0941",
+              "slug": "valid-mountain-array",
+              "title": "Valid Mountain Array",
+              "url": "https://leetcode.com/problems/valid-mountain-array/",
+              "chapter": 2,
+              "sectionCode": "2.2a",
+              "sectionTitle": "1D Array, Medium",
+              "starred": false,
+              "difficulty": "Easy"
+            },
+            {
+              "id": "leetcode:sum-of-even-numbers-after-queries",
+              "platform": "leetcode",
+              "sourceId": "lc0985",
+              "slug": "sum-of-even-numbers-after-queries",
+              "title": "Sum of Even Numbers After Queries",
+              "url": "https://leetcode.com/problems/sum-of-even-numbers-after-queries/",
+              "chapter": 2,
+              "sectionCode": "2.2a",
+              "sectionTitle": "1D Array, Medium",
+              "starred": true,
+              "difficulty": "Medium"
+            }
+          ]
+        },
+        {
+          "code": "2.3d",
+          "title": "Hash Table (set), Easier",
+          "problems": [
+            {
+              "id": "kattis:everywhere",
+              "platform": "kattis",
+              "sourceId": "everywhere",
+              "slug": "everywhere",
+              "title": "I've Been Everywhere, Man",
+              "url": "https://open.kattis.com/problems/everywhere",
+              "chapter": 2,
+              "sectionCode": "2.3d",
+              "sectionTitle": "Hash Table (set), Easier",
+              "starred": true,
+              "points": 1.4
+            },
+            {
+              "id": "kattis:quickbrownfox",
+              "platform": "kattis",
+              "sourceId": "quickbrownfox",
+              "slug": "quickbrownfox",
+              "title": "Quick Brown Fox",
+              "url": "https://open.kattis.com/problems/quickbrownfox",
+              "chapter": 2,
+              "sectionCode": "2.3d",
+              "sectionTitle": "Hash Table (set), Easier",
+              "starred": false,
+              "points": 2.0
+            },
+            {
+              "id": "leetcode:contains-duplicate",
+              "platform": "leetcode",
+              "sourceId": "lc0217",
+              "slug": "contains-duplicate",
+              "title": "Contains Duplicate",
+              "url": "https://leetcode.com/problems/contains-duplicate/",
+              "chapter": 2,
+              "sectionCode": "2.3d",
+              "sectionTitle": "Hash Table (set), Easier",
+              "starred": false,
+              "difficulty": "Easy"
+            }
+          ]
+        },
+        {
+          "code": "2.4a",
+          "title": "Graph Data Structures",
+          "problems": [
+            {
+              "id": "kattis:almostunionfind",
+              "platform": "kattis",
+              "sourceId": "almostunionfind",
+              "slug": "almostunionfind",
+              "title": "Almost Union-Find",
+              "url": "https://open.kattis.com/problems/almostunionfind",
+              "chapter": 2,
+              "sectionCode": "2.4a",
+              "sectionTitle": "Graph Data Structures",
+              "starred": true,
+              "points": 4.4
+            },
+            {
+              "id": "kattis:virtualfriends",
+              "platform": "kattis",
+              "sourceId": "virtualfriends",
+              "slug": "virtualfriends",
+              "title": "Virtual Friends",
+              "url": "https://open.kattis.com/problems/virtualfriends",
+              "chapter": 2,
+              "sectionCode": "2.4a",
+              "sectionTitle": "Graph Data Structures",
+              "starred": false,
+              "points": 3.3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Problem Solving Paradigms",
+      "sections": [
+        {
+          "code": "3.2g",
+          "title": "Iterative (Combination)",
+          "problems": [
+            {
+              "id": "kattis:geppetto",
+              "platform": "kattis",
+              "sourceId": "geppetto",
+              "slug": "geppetto",
+              "title": "Geppetto",
+              "url": "https://open.kattis.com/problems/geppetto",
+              "chapter": 3,
+              "sectionCode": "3.2g",
+              "sectionTitle": "Iterative (Combination)",
+              "starred": true,
+              "points": 3.3
+            },
+            {
+              "id": "kattis:buildingboundaries",
+              "platform": "kattis",
+              "sourceId": "buildingboundaries",
+              "slug": "buildingboundaries",
+              "title": "Building Boundaries",
+              "url": "https://open.kattis.com/problems/buildingboundaries",
+              "chapter": 3,
+              "sectionCode": "3.2g",
+              "sectionTitle": "Iterative (Combination)",
+              "starred": false,
+              "points": 3.4
+            },
+            {
+              "id": "leetcode:subsets",
+              "platform": "leetcode",
+              "sourceId": "lc0078",
+              "slug": "subsets",
+              "title": "Subsets",
+              "url": "https://leetcode.com/problems/subsets/",
+              "chapter": 3,
+              "sectionCode": "3.2g",
+              "sectionTitle": "Iterative (Combination)",
+              "starred": true,
+              "difficulty": "Medium"
+            }
+          ]
+        },
+        {
+          "code": "3.2m",
+          "title": "Backtracking, Easier",
+          "problems": [
+            {
+              "id": "kattis:paintings",
+              "platform": "kattis",
+              "sourceId": "paintings",
+              "slug": "paintings",
+              "title": "Paintings",
+              "url": "https://open.kattis.com/problems/paintings",
+              "chapter": 3,
+              "sectionCode": "3.2m",
+              "sectionTitle": "Backtracking, Easier",
+              "starred": true,
+              "points": 3.6
+            },
+            {
+              "id": "kattis:natjecanje",
+              "platform": "kattis",
+              "sourceId": "natjecanje",
+              "slug": "natjecanje",
+              "title": "Natjecanje",
+              "url": "https://open.kattis.com/problems/natjecanje",
+              "chapter": 3,
+              "sectionCode": "3.2m",
+              "sectionTitle": "Backtracking, Easier",
+              "starred": false,
+              "points": 2.5
+            },
+            {
+              "id": "leetcode:permutations",
+              "platform": "leetcode",
+              "sourceId": "lc0046",
+              "slug": "permutations",
+              "title": "Permutations",
+              "url": "https://leetcode.com/problems/permutations/",
+              "chapter": 3,
+              "sectionCode": "3.2m",
+              "sectionTitle": "Backtracking, Easier",
+              "starred": false,
+              "difficulty": "Medium"
+            }
+          ]
+        },
+        {
+          "code": "3.5c",
+          "title": "Longest Increasing Subsequence",
+          "problems": [
+            {
+              "id": "kattis:manhattanmornings",
+              "platform": "kattis",
+              "sourceId": "manhattanmornings",
+              "slug": "manhattanmornings",
+              "title": "Manhattan Mornings",
+              "url": "https://open.kattis.com/problems/manhattanmornings",
+              "chapter": 3,
+              "sectionCode": "3.5c",
+              "sectionTitle": "Longest Increasing Subsequence",
+              "starred": false,
+              "points": 4.0
+            },
+            {
+              "id": "leetcode:longest-increasing-subsequence",
+              "platform": "leetcode",
+              "sourceId": "lc0300",
+              "slug": "longest-increasing-subsequence",
+              "title": "Longest Increasing Subsequence",
+              "url": "https://leetcode.com/problems/longest-increasing-subsequence/",
+              "chapter": 3,
+              "sectionCode": "3.5c",
+              "sectionTitle": "Longest Increasing Subsequence",
+              "starred": true,
+              "difficulty": "Medium"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Graph",
+      "sections": [
+        {
+          "code": "4.2b",
+          "title": "Flood Fill, Easier",
+          "problems": [
+            {
+              "id": "kattis:amoebas",
+              "platform": "kattis",
+              "sourceId": "amoebas",
+              "slug": "amoebas",
+              "title": "Counting Stars",
+              "url": "https://open.kattis.com/problems/amoebas",
+              "chapter": 4,
+              "sectionCode": "4.2b",
+              "sectionTitle": "Flood Fill, Easier",
+              "starred": true,
+              "points": 2.5
+            },
+            {
+              "id": "kattis:10kindsofpeople",
+              "platform": "kattis",
+              "sourceId": "10kindsofpeople",
+              "slug": "10kindsofpeople",
+              "title": "10 Kinds of People",
+              "url": "https://open.kattis.com/problems/10kindsofpeople",
+              "chapter": 4,
+              "sectionCode": "4.2b",
+              "sectionTitle": "Flood Fill, Easier",
+              "starred": false,
+              "points": 3.8
+            },
+            {
+              "id": "leetcode:number-of-islands",
+              "platform": "leetcode",
+              "sourceId": "lc0200",
+              "slug": "number-of-islands",
+              "title": "Number of Islands",
+              "url": "https://leetcode.com/problems/number-of-islands/",
+              "chapter": 4,
+              "sectionCode": "4.2b",
+              "sectionTitle": "Flood Fill, Easier",
+              "starred": true,
+              "difficulty": "Medium"
+            }
+          ]
+        },
+        {
+          "code": "4.3a",
+          "title": "Minimum Spanning Tree",
+          "problems": [
+            {
+              "id": "kattis:minspantree",
+              "platform": "kattis",
+              "sourceId": "minspantree",
+              "slug": "minspantree",
+              "title": "Minimum Spanning Tree",
+              "url": "https://open.kattis.com/problems/minspantree",
+              "chapter": 4,
+              "sectionCode": "4.3a",
+              "sectionTitle": "Minimum Spanning Tree",
+              "starred": true,
+              "points": 4.4
+            },
+            {
+              "id": "kattis:arcticnetwork",
+              "platform": "kattis",
+              "sourceId": "arcticnetwork",
+              "slug": "arcticnetwork",
+              "title": "Arctic Network",
+              "url": "https://open.kattis.com/problems/arcticnetwork",
+              "chapter": 4,
+              "sectionCode": "4.3a",
+              "sectionTitle": "Minimum Spanning Tree",
+              "starred": false,
+              "points": 4.0
+            }
+          ]
+        },
+        {
+          "code": "4.4a",
+          "title": "Single-Source Shortest Paths",
+          "problems": [
+            {
+              "id": "kattis:shortestpath1",
+              "platform": "kattis",
+              "sourceId": "shortestpath1",
+              "slug": "shortestpath1",
+              "title": "Shortest Path 1",
+              "url": "https://open.kattis.com/problems/shortestpath1",
+              "chapter": 4,
+              "sectionCode": "4.4a",
+              "sectionTitle": "Single-Source Shortest Paths",
+              "starred": false,
+              "points": 4.1
+            },
+            {
+              "id": "leetcode:network-delay-time",
+              "platform": "leetcode",
+              "sourceId": "lc0743",
+              "slug": "network-delay-time",
+              "title": "Network Delay Time",
+              "url": "https://leetcode.com/problems/network-delay-time/",
+              "chapter": 4,
+              "sectionCode": "4.4a",
+              "sectionTitle": "Single-Source Shortest Paths",
+              "starred": false,
+              "difficulty": "Medium"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

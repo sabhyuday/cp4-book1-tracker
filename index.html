@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A minimal chapter-organised CP4 Book 1 checklist for Kattis and LeetCode.">
+  <title>CP4 Book 1 Tracker</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Competitive Programming 4</p>
+        <h1>Book 1 tracker</h1>
+      </div>
+      <div id="accountSummary" class="accounts" aria-live="polite"></div>
+    </header>
+
+    <section class="summary" aria-label="Progress summary">
+      <div class="metric">
+        <strong id="solvedMetric">0</strong>
+        <span>Solved</span>
+      </div>
+      <div class="metric">
+        <strong id="totalMetric">0</strong>
+        <span>Tracked</span>
+      </div>
+      <div class="metric">
+        <strong id="starMetric">0</strong>
+        <span>Starred solved</span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>Progress</span>
+          <span id="progressText">0%</span>
+        </div>
+        <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="Filters">
+      <label class="search">
+        <span class="sr-only">Search problems</span>
+        <input id="searchInput" type="search" placeholder="Search problems…" autocomplete="off">
+      </label>
+      <div class="filter-group" id="platformFilters" aria-label="Platform filter">
+        <button class="active" type="button" data-platform="all">All</button>
+        <button type="button" data-platform="kattis">Kattis</button>
+        <button type="button" data-platform="leetcode">LeetCode</button>
+        <button type="button" data-platform="starred">★ Starred</button>
+      </div>
+      <div class="filter-group" id="statusFilters" aria-label="Status filter">
+        <button class="active" type="button" data-status="all">Any status</button>
+        <button type="button" data-status="solved">Solved</button>
+        <button type="button" data-status="unsolved">Unsolved</button>
+        <button type="button" data-status="unknown">Unknown</button>
+      </div>
+    </section>
+
+    <p id="syncNotice" class="notice" aria-live="polite"></p>
+    <section id="chapters" class="chapters" aria-label="CP4 chapters"></section>
+  </main>
+
+  <template id="problemTemplate">
+    <li class="problem">
+      <span class="status-dot" aria-hidden="true"></span>
+      <div class="problem-main">
+        <div class="problem-line">
+          <a class="problem-title" target="_blank" rel="noopener noreferrer"></a>
+          <span class="star" title="CPBook starred problem" aria-label="Starred problem">★</span>
+        </div>
+        <div class="problem-meta">
+          <span class="platform"></span>
+          <span class="problem-id"></span>
+          <span class="difficulty"></span>
+        </div>
+      </div>
+      <span class="status-text"></span>
+    </li>
+  </template>
+</body>
+</html>
