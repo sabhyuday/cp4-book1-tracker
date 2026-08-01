@@ -1,20 +1,21 @@
-# Publish from a Mac terminal
+# Publish the tracker from a Mac terminal
 
-This guide creates a **private GitHub repository** and deploys the static tracker with GitHub Pages.
+This edition is designed for a **public GitHub repository**. All usernames, passwords, and cookies remain in GitHub Actions repository secrets.
 
-> Important: GitHub Pro allows Pages to use a private source repository, but the resulting Pages website is public. The project therefore keeps account identities and credentials out of the deployed files. Your solved CP4 problem slugs are visible to anyone who can access the site URL.
+The Pages website and its solved-problem slugs are public. Account identities and credentials are not included in deployed files.
 
-## 1. Extract the download
+## 1. Extract and enter the project
 
-The easiest method is to double-click the ZIP in Finder. Then open Terminal and move into the extracted folder, for example:
+Double-click the ZIP in Finder, then run:
 
 ```bash
-cd ~/Downloads/cp4-book1-tracker-private-pages
+cd ~/Downloads/cp4-book1-tracker-public-full
+ls -la
 ```
 
-Use `pwd` and `ls` to confirm that you can see `package.json`, `index.html`, and `.github`.
+You should see `package.json`, `index.html`, `data`, `scripts`, and `.github`.
 
-## 2. Install Apple's command-line tools
+## 2. Install Git tools
 
 Check Git:
 
@@ -22,42 +23,34 @@ Check Git:
 git --version
 ```
 
-If macOS says the developer tools are missing, install them:
+When macOS asks for developer tools, install them with:
 
 ```bash
 xcode-select --install
 ```
 
-Complete the macOS installer, then run `git --version` again.
-
-## 3. Install Homebrew, when needed
-
-Check whether Homebrew is already installed:
+Check Homebrew:
 
 ```bash
 brew --version
 ```
 
-If `brew` is not found, install Homebrew using its official installer:
+When Homebrew is missing, install it:
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-At the end, Homebrew prints one or two commands for adding it to your shell `PATH`. Run the exact commands it shows, then verify:
+Run the shell setup commands printed by Homebrew, then install GitHub CLI and Node.js:
 
 ```bash
-brew --version
-```
-
-## 4. Install GitHub CLI
-
-```bash
-brew install gh
+brew install gh node
 gh --version
+node --version
+npm --version
 ```
 
-## 5. Log into GitHub
+## 3. Log into GitHub
 
 ```bash
 gh auth login
@@ -71,53 +64,45 @@ HTTPS
 Login with a web browser
 ```
 
-When asked whether GitHub CLI should authenticate Git as well, choose **Yes**. Copy the one-time code, press Enter to open the browser, sign in, and authorise GitHub CLI.
-
-Verify the login:
+Allow GitHub CLI to configure Git authentication. Verify:
 
 ```bash
 gh auth status
 ```
 
-## 6. Configure your Git author details
-
-Use the name and verified email associated with your GitHub account:
+## 4. Configure your Git author
 
 ```bash
 git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
+git config --global user.email "your-verified-github-email@example.com"
 ```
 
-Check them:
+## 5A. Create a new public repository
 
-```bash
-git config --global --get user.name
-git config --global --get user.email
-```
-
-## 7. Create the private repository and push the code
-
-From inside the extracted project folder:
+From inside the extracted project:
 
 ```bash
 git init
 git add .
 git commit -m "Initial CP4 tracker"
 git branch -M main
-gh repo create cp4-book1-tracker --private --source=. --remote=origin --push
+gh repo create cp4-book1-tracker --public --source=. --remote=origin --push
 ```
 
-You can replace `cp4-book1-tracker` with another repository name.
+## 5B. Replace an existing tracker repository
 
-Open the private repository in your browser:
+Copy the new project files into your existing local repository, keeping its `.git` directory. Then run:
 
 ```bash
-gh repo view --web
+git status
+git add .
+git commit -m "Update full CP4 catalogue tracker"
+git push
 ```
 
-## 8. Add account secrets safely
+## 6. Add account secrets
 
-Each command opens a hidden-value prompt. Paste the requested value and press Enter. The value is encrypted before GitHub CLI sends it to GitHub.
+Each command opens a hidden prompt. Paste the value and press Enter:
 
 ```bash
 gh secret set KATTIS_USERNAME
@@ -132,139 +117,150 @@ gh secret set LEETCODE_SESSION
 gh secret set LEETCODE_CSRF
 ```
 
-Confirm that the secret **names** exist; their values will not be shown:
+Check only the secret names:
 
 ```bash
 gh secret list
 ```
 
-Do not place these values in files, commits, screenshots, issue posts, or command-line arguments.
+Do not put secret values in repository files, commits, issue posts, screenshots, or command-line arguments.
 
-### Finding LeetCode cookies
+### Find the optional LeetCode cookies
 
-1. Sign in to LeetCode in your browser.
-2. Open Developer Tools.
-3. Open **Application** or **Storage** → **Cookies** → `https://leetcode.com`.
-4. Copy the values of `LEETCODE_SESSION` and `csrftoken`.
-5. Store `csrftoken` as the `LEETCODE_CSRF` GitHub secret.
+1. Sign in to LeetCode.
+2. Open browser Developer Tools.
+3. Open **Application/Storage → Cookies → `https://leetcode.com`**.
+4. Store the `LEETCODE_SESSION` value as the secret of the same name.
+5. Store the `csrftoken` value as `LEETCODE_CSRF`.
 
-Treat both values like passwords. They expire and may need to be replaced later.
+These cookies are equivalent to login credentials and expire periodically.
 
-## 9. Enable GitHub Pages with Actions
+## 7. Enable GitHub Pages Actions deployment
 
-Enable Pages from the terminal:
+From inside the repository:
 
 ```bash
 gh api --method POST repos/{owner}/{repo}/pages -f build_type=workflow
 ```
 
-The `{owner}` and `{repo}` placeholders are understood by `gh api` when you run it inside this repository.
-
-If GitHub reports that the Pages site already exists, update it instead:
+When GitHub says the Pages site already exists, run:
 
 ```bash
 gh api --method PUT repos/{owner}/{repo}/pages -f build_type=workflow
 ```
 
-Browser fallback:
-
-```bash
-gh repo view --web
-```
-
-Then choose:
+Browser alternative:
 
 ```text
-Settings → Pages → Build and deployment → Source → GitHub Actions
+Repository → Settings → Pages → Build and deployment → Source → GitHub Actions
 ```
 
-The project already contains the required workflow, so do not generate a replacement workflow.
+## 8. Fetch every problem and deploy
 
-## 10. Run the first account sync and deployment
-
-```bash
-gh workflow run "Sync accounts and deploy"
-```
-
-Watch it:
+Force the first full catalogue refresh:
 
 ```bash
+gh workflow run "Sync accounts and deploy" -f refresh_catalogue=true
 gh run watch
 ```
 
-After it succeeds, inspect the Pages deployment URL:
+This run may be longer than ordinary syncs because it:
+
+- reads all chapter 1–4 Kattis and LeetCode rows from CPBook;
+- resolves real LeetCode slugs;
+- retrieves missing Kattis titles;
+- validates that the result is a full dataset;
+- commits `data/problems.json` using `github-actions[bot]`;
+- checks your accounts and deploys the site.
+
+After success, update your local branch because the bot committed the catalogue:
 
 ```bash
-gh api repos/{owner}/{repo}/pages --jq .html_url
+git pull --rebase
 ```
 
-Open the site:
+Open the deployed site:
 
 ```bash
 open "$(gh api repos/{owner}/{repo}/pages --jq .html_url)"
 ```
 
-The `{owner}` and `{repo}` placeholders are understood by `gh api` when run inside the repository.
+## 9. Normal operation
 
-## 11. Updating the project later
-
-After editing files:
+- Solved statuses refresh every six hours.
+- The complete CPBook catalogue refreshes every Sunday.
+- Pushes redeploy the site.
+- A manual full refresh is available with:
 
 ```bash
-git add .
-git commit -m "Update tracker"
-git push
+gh workflow run "Sync accounts and deploy" -f refresh_catalogue=true
+gh run watch
 ```
 
-A push to `main` automatically syncs the accounts and redeploys the site. The scheduled workflow also refreshes account data every six hours.
-
-To trigger a refresh manually:
+A normal account-only refresh is:
 
 ```bash
 gh workflow run "Sync accounts and deploy"
 gh run watch
 ```
 
+## Public-repository safety
+
+- The workflow has no `pull_request` trigger.
+- Forked pull requests do not receive your repository secrets.
+- Only merge workflow changes you have reviewed.
+- Protect `main` if other people can write to the repository.
+- The generated Pages site exposes solved problem slugs, because static website data is public.
+
 ## Troubleshooting
 
-### `brew: command not found`
+### The first workflow starts before secrets are added
 
-Run the shell setup commands printed by the Homebrew installer, close and reopen Terminal, then try `brew --version`.
+That is okay. Missing accounts appear as **off**. Add the secrets, then run the workflow manually again.
 
-### `gh: command not found`
+### Full catalogue validation fails
 
-```bash
-brew update
-brew install gh
-```
-
-### GitHub CLI is logged into the wrong account
+Open the failed log:
 
 ```bash
-gh auth status
-gh auth logout
-gh auth login
+gh run view --log-failed
 ```
 
-### Workflow says a secret is missing
+Retry the forced refresh. A temporary CPBook, Kattis, or LeetCode rate limit can interrupt the scrape. The workflow refuses to replace the existing catalogue with a suspiciously small result.
+
+### The bot cannot push `data/problems.json`
+
+Open:
+
+```text
+Settings → Actions → General → Workflow permissions
+```
+
+Select **Read and write permissions**, then rerun the workflow. Also check branch-protection rules if `main` requires pull requests.
+
+### Kattis sync fails
+
+Re-enter both Kattis secrets and verify the same credentials work on Kattis:
 
 ```bash
-gh secret list
+gh secret set KATTIS_USERNAME
+gh secret set KATTIS_PASSWORD
 ```
 
-Re-enter the missing one using `gh secret set SECRET_NAME`.
+### LeetCode stays partial or grey
 
-### Kattis login fails
+Refresh the cookie secrets:
 
-Re-enter both Kattis secrets. Some accounts may use a login setup that Kattis' email-login form does not accept; verify that the same username and password work on the Kattis website.
+```bash
+gh secret set LEETCODE_SESSION
+gh secret set LEETCODE_CSRF
+```
 
-### LeetCode is partial or grey
-
-Refresh `LEETCODE_SESSION` and `LEETCODE_CSRF`; the cookies can expire. Without valid cookies, only the public recent-accepted list is available.
+Without valid cookies, only the public recent-accepted list may be available, so unseen problems remain grey.
 
 ### Pages returns 404
 
-Confirm that **Settings → Pages → Source** is set to **GitHub Actions**, then inspect the most recent run:
+Confirm **Settings → Pages → Source** is **GitHub Actions**, then inspect:
 
 ```bash
 gh run list --workflow "Sync accounts and deploy"

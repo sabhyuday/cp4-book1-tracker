@@ -1,15 +1,16 @@
 {
-  "name": "cp4-book1-static-tracker",
-  "version": "2.1.0",
+  "name": "cp4-book1-public-static-tracker",
+  "version": "3.0.0",
   "private": true,
   "type": "module",
-  "description": "Minimal static CP4 Book 1 checklist with secret-only Kattis and LeetCode account syncing.",
+  "description": "Minimal static CP4 Book 1 checklist with a complete auto-refreshed Kattis and LeetCode catalogue.",
   "scripts": {
     "sync": "node scripts/generate-solved.mjs",
     "scrape": "node scripts/scrape-cpbook.mjs",
     "scrape:fast": "node scripts/scrape-cpbook.mjs --fast",
     "build": "node scripts/build.mjs",
-    "test": "node scripts/test-data.mjs && node scripts/test-solved.mjs && node --check app.js && node --check scripts/generate-solved.mjs && node --check scripts/build.mjs && node --check scripts/scrape-cpbook.mjs"
+    "test": "node scripts/test-data.mjs && node scripts/test-solved.mjs && node --check app.js && node --check scripts/generate-solved.mjs && node --check scripts/build.mjs && node --check scripts/scrape-cpbook.mjs",
+    "test:full": "node scripts/test-full-data.mjs"
   },
   "engines": {
     "node": ">=20"

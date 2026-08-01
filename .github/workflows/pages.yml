@@ -4,11 +4,20 @@ on:
   push:
     branches: [main, master]
   schedule:
+    # Refresh solved statuses every six hours.
     - cron: '17 */6 * * *'
+    # Refresh the CPBook catalogue once a week.
+    - cron: '41 3 * * 0'
   workflow_dispatch:
+    inputs:
+      refresh_catalogue:
+        description: 'Refresh every CPBook problem before deploying'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -19,28 +28,62 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 45
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Install updater dependency
+      - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Validate required account secrets
+      - name: Decide whether to refresh catalogue
+        id: catalogue
         env:
-          KATTIS_USERNAME: ${{ secrets.KATTIS_USERNAME }}
-          KATTIS_PASSWORD: ${{ secrets.KATTIS_PASSWORD }}
-          LEETCODE_USERNAME: ${{ secrets.LEETCODE_USERNAME }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+          FORCE_REFRESH: ${{ inputs.refresh_catalogue || false }}
         run: |
-          test -n "$KATTIS_USERNAME" || { echo 'Missing KATTIS_USERNAME secret.'; exit 1; }
-          test -n "$KATTIS_PASSWORD" || { echo 'Missing KATTIS_PASSWORD secret.'; exit 1; }
-          test -n "$LEETCODE_USERNAME" || { echo 'Missing LEETCODE_USERNAME secret.'; exit 1; }
+          node <<'NODE'
+          const fs = require('node:fs');
+          const data = JSON.parse(fs.readFileSync('data/problems.json', 'utf8'));
+          const total = (data.chapters || []).flatMap(c =>
+            (c.sections || []).flatMap(s => s.problems || [])
+          ).length;
+          const bootstrap = total < 500 || data.metadata?.demo === true;
+          const weekly = process.env.EVENT_NAME === 'schedule' && process.env.EVENT_SCHEDULE === '41 3 * * 0';
+          const forced = process.env.FORCE_REFRESH === 'true';
+          const refresh = bootstrap || weekly || forced;
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `run=${refresh}\n`);
+          console.log(`Catalogue currently has ${total} problems. Refresh: ${refresh}.`);
+          NODE
+
+      - name: Refresh complete CPBook catalogue
+        if: steps.catalogue.outputs.run == 'true'
+        run: npm run scrape
+
+      - name: Verify complete catalogue
+        if: steps.catalogue.outputs.run == 'true'
+        run: npm run test:full
+
+      - name: Commit refreshed catalogue
+        if: steps.catalogue.outputs.run == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/problems.json
+          if git diff --cached --quiet; then
+            echo 'Catalogue is already current.'
+          else
+            git commit -m 'chore: refresh CPBook problem catalogue'
+            git push
+          fi
 
       - name: Generate solved-problems JSON
         env:
@@ -49,7 +92,9 @@ jobs:
           LEETCODE_USERNAME: ${{ secrets.LEETCODE_USERNAME }}
           LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
           LEETCODE_CSRF: ${{ secrets.LEETCODE_CSRF }}
-          STRICT_SYNC: '1'
+          # A missing account is shown as off. A configured account that fails
+          # is shown as an error without publishing its identity.
+          STRICT_SYNC: '0'
         run: npm run sync
 
       - name: Validate data

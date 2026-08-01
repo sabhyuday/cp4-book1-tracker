@@ -1,52 +1,73 @@
-# CP4 Book 1 Tracker — private-source GitHub Pages edition
+# CP4 Book 1 Tracker — public GitHub Pages edition
 
-A minimal static checklist for the Kattis and LeetCode problems in CP4 Book 1.
+A minimal static checklist for the **current CPBook chapters 1–4**, limited to **Kattis and LeetCode**.
 
-The source repository can be **private** with GitHub Pro. The deployed GitHub Pages website is still publicly reachable, so the build publishes only:
+The repository may be public. Account usernames, passwords, and LeetCode cookies are read only from GitHub Actions repository secrets. They are not stored in committed files or added to the generated website.
 
-- problem catalogue data;
-- solved problem slugs for the tracked CP4 problems;
-- sync state and timestamps.
+## What the workflow does
 
-It does **not** publish usernames, passwords, LeetCode cookies, or profile URLs. Every account value is read from GitHub Actions repository secrets.
+The workflow in `.github/workflows/pages.yml`:
+
+1. detects the small bootstrap catalogue on the first run;
+2. scrapes every current Kattis and LeetCode problem in CPBook chapters 1–4;
+3. resolves LeetCode numeric IDs to real title slugs;
+4. marks CPBook starred problems;
+5. validates that a full scrape contains at least 500 records;
+6. commits the refreshed `data/problems.json` to the repository;
+7. checks your accounts and creates an identity-free `data/solved.json`;
+8. deploys the static site to GitHub Pages.
+
+Account statuses refresh every six hours. The CPBook catalogue refreshes weekly and can also be refreshed manually.
 
 ## Status colours
 
 - Green: solved
-- Red: confirmed unsolved after a complete sync
-- Grey: unknown because an account is disabled or the available LeetCode sync is partial
+- Red: confirmed unsolved after a complete account sync
+- Grey: unknown because an account is not configured, failed, or LeetCode returned only partial public history
 - `★`: CPBook starred problem
 
-## Secrets
+## Repository secrets
 
-Add these in the repository's Actions secrets:
+Add these at **Settings → Secrets and variables → Actions**:
 
 | Secret | Required | Purpose |
 |---|---:|---|
-| `KATTIS_USERNAME` | For Kattis | Kattis account name |
-| `KATTIS_PASSWORD` | For Kattis | Kattis account password |
-| `LEETCODE_USERNAME` | For LeetCode | LeetCode account name |
-| `LEETCODE_SESSION` | Recommended | Enables the complete authenticated solved list |
-| `LEETCODE_CSRF` | Recommended | LeetCode `csrftoken` paired with the session |
+| `KATTIS_USERNAME` | Recommended | Kattis account name |
+| `KATTIS_PASSWORD` | Recommended | Kattis account password |
+| `LEETCODE_USERNAME` | Recommended | LeetCode account name |
+| `LEETCODE_SESSION` | Optional but recommended | Enables a complete authenticated LeetCode solved list |
+| `LEETCODE_CSRF` | Optional but recommended | LeetCode `csrftoken` paired with the session |
 
-Without the two LeetCode cookie secrets, the updater uses LeetCode's public recent-accepted list. Seen problems become green, but unseen problems remain grey because that list may be incomplete.
+Missing accounts are shown as **off** instead of making deployment fail.
 
-## macOS terminal setup and publishing
+## Privacy on a public repository
 
-Full commands are in [`PUBLISHING.md`](PUBLISHING.md).
+The workflow never runs on `pull_request`, so code from a public fork cannot receive your repository secrets. GitHub also does not pass Actions secrets to workflows triggered from forks.
 
-## How deployment works
+The deployed site is public. Its generated `solved.json` therefore reveals which tracked problem slugs are solved, but not the account names or credentials.
 
-The workflow in `.github/workflows/pages.yml` runs after pushes, manually, and every six hours. It:
+Do not commit `.env` files, copied cookies, passwords, or a locally generated solved file containing extra personal fields.
 
-1. reads usernames and credentials from encrypted repository secrets;
-2. logs into Kattis and checks LeetCode;
-3. generates `data/solved.json` inside the temporary Actions runner;
-4. validates the problem links and ensures no account identity is published;
-5. builds the static `dist` directory;
-6. deploys that artifact to GitHub Pages.
+## Publishing and updating
 
-The generated account file is deployed directly and is not committed back to the repository.
+See [`PUBLISHING.md`](PUBLISHING.md) for exact macOS and GitHub CLI commands.
+
+After replacing an older version of the project:
+
+```bash
+git add .
+git commit -m "Update tracker and full catalogue workflow"
+git push
+```
+
+Then run a forced catalogue refresh:
+
+```bash
+gh workflow run "Sync accounts and deploy" -f refresh_catalogue=true
+gh run watch
+```
+
+The refreshed catalogue is committed by `github-actions[bot]`, and the same run deploys it.
 
 ## Local development
 
@@ -54,11 +75,8 @@ Requires Node.js 20 or newer.
 
 ```bash
 npm install
-export KATTIS_USERNAME='your-kattis-name'
-export KATTIS_PASSWORD='your-kattis-password'
-export LEETCODE_USERNAME='your-leetcode-name'
-export LEETCODE_SESSION='your-session-cookie-value' # optional
-export LEETCODE_CSRF='your-csrftoken'                # optional
+npm run scrape
+npm run test:full
 npm run sync
 npm test
 npm run build
@@ -67,16 +85,8 @@ python3 -m http.server 8000 -d dist
 
 Open `http://localhost:8000`.
 
-Avoid putting secrets directly into shell commands on shared machines, because shell history may retain them. GitHub CLI's interactive `gh secret set NAME` prompt is safer for publishing.
+For local account sync, set the same environment variables used by GitHub Secrets. Avoid typing secret values directly into commands on shared machines because shell history can retain them.
 
-## Refreshing the CPBook catalogue
+## Data-source note
 
-The included catalogue is the validated preview data from the previous build. To scrape the current CPBook chapters 1–4 for Kattis and LeetCode:
-
-```bash
-npm install
-npm run scrape
-npm test
-```
-
-The scraper refuses to save unresolved fake LeetCode slugs such as `lc2469`.
+CPBook’s online Methods to Solve catalogue is now the evolving CP4+5 classification, not a frozen copy of the July 2020 printed book. The tracker intentionally follows its current chapter 1–4 classification and includes newer Kattis and LeetCode additions.

@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio';
-import { writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -15,6 +15,28 @@ const CHAPTERS = {
   3: 'Problem Solving Paradigms',
   4: 'Graph'
 };
+
+
+async function loadExistingProblemCache() {
+  try {
+    const current = JSON.parse(await readFile(OUTPUT, 'utf8'));
+    const problems = (current.chapters || []).flatMap(chapter =>
+      (chapter.sections || []).flatMap(section => section.problems || [])
+    );
+    const cache = new Map();
+    for (const problem of problems) {
+      if (problem?.platform && problem?.slug && problem?.title) {
+        cache.set(`${problem.platform}:${problem.slug}`, problem);
+      }
+      if (problem?.platform && problem?.sourceId && problem?.title) {
+        cache.set(`${problem.platform}:source:${String(problem.sourceId).toLowerCase()}`, problem);
+      }
+    }
+    return cache;
+  } catch {
+    return new Map();
+  }
+}
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -266,7 +288,9 @@ async function enrichKattisTitles(problems) {
     if (problem.title && problem.title.toLowerCase() !== problem.slug.toLowerCase()) return problem;
     const html = await fetchText(`https://open.kattis.com/problems/${encodeURIComponent(problem.slug)}`);
     const $ = cheerio.load(html);
-    const title = normaliseSpace($('h1').first().text()) || normaliseSpace($('title').text().split('–')[0]);
+    const title = normaliseSpace($('h1').first().text())
+      || normaliseSpace($('meta[property="og:title"]').attr('content'))
+      || normaliseSpace($('title').text().split('–')[0]);
     if (index % 50 === 0) console.log(`Kattis titles ${index}/${problems.length}`);
     await sleep(80);
     return { ...problem, title: title || problem.slug };
@@ -294,6 +318,7 @@ export function validateProblem(problem) {
 }
 
 async function main() {
+  const existingCache = await loadExistingProblemCache();
   const allRows = [];
   const starredKeys = new Set();
 
@@ -325,6 +350,11 @@ async function main() {
       row.paidOnly = Boolean(catalog.isPaidOnly);
     } else {
       row.url = `https://open.kattis.com/problems/${row.slug}`;
+      const cached = existingCache.get(`kattis:${row.slug}`)
+        || existingCache.get(`kattis:source:${String(row.sourceId).toLowerCase()}`);
+      if ((!row.title || row.title.toLowerCase() === row.slug.toLowerCase()) && cached?.title) {
+        row.title = cached.title;
+      }
       if (!row.title) row.title = row.slug;
     }
 
@@ -387,7 +417,7 @@ async function main() {
       generatedAt: new Date().toISOString(),
       source: 'CPBook Methods to Solve, current CP4+5 classification',
       scope: 'Book 1 chapters 1-4; Kattis and LeetCode only',
-      note: 'LeetCode IDs are resolved through LeetCode catalogue data. The scraper aborts instead of generating lc#### links when resolution fails.',
+      note: 'Automatically refreshed from CPBook. LeetCode IDs are resolved through LeetCode catalogue data, and the scraper aborts instead of generating lc#### links when resolution fails.',
       demo: false,
       counts: {
         total: flat.length,

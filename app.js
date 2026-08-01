@@ -128,7 +128,7 @@ function renderNotice() {
   }
 
   if (metadata?.demo) {
-    messages.push('The included problem list is preview data; run npm run scrape to replace it with the current full CPBook list.');
+    messages.push('This is the bootstrap catalogue. Run the GitHub workflow once; it will fetch, validate, commit, and deploy the complete current CPBook list.');
     if (!level) level = 'warning';
   }
 
